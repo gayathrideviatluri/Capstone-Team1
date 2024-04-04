@@ -5,7 +5,6 @@ from operator import mod
 from adminapp.models import *
 from django.utils import timezone
 
-# Create your models here.
 class UserdetailsModel(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(verbose_name='Name', max_length=50, blank=False,null=False)
