@@ -7,23 +7,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.metrics import jaccard_distance
 from nltk.corpus import stopwords
 
-
-
-
-
-
 # text similarity using sklearn
 
 def cosine_similarity_text(text1, text2):
     vectorizer = CountVectorizer().fit_transform([text1, text2])
     similarity = cosine_similarity(vectorizer[0], vectorizer[1])
     return similarity[0][0]
-
-
-
-
-
-
 
 
 def text_similarity_nltk(answer1, answer2):
