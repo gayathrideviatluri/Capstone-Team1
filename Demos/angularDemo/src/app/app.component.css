@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;
+  color: #08041e;
+  font-size: 1.5rem;
+  border: 4px solid green;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+p.center {
+  text-align: center;
+  color: rgb(12, 230, 34);
+  margin-top: 50px;
+  margin-bottom: 100px;
+  margin-right: 50px;
+  margin-left: 50px;
+  border-style: solid;
+  padding: 50px 50px 50px 50px;
+}
+div{
+  text-align: center;
+}
