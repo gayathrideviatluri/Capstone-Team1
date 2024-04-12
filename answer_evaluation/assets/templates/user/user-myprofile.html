@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <title>AutoCorrect+ - A Descriptive Answers Evaluation - This is done using Using Cosine Similarity </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="{% static 'user/images/book.png' %}" rel="icon">
+  
+  <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'user/fonts/icomoon/style.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/jquery.fancybox.min.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/fonts/flaticon/font/flaticon.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
+  <style>
+    .navv{
+      background-color: #494e53;
+    }
+  </style>
+  
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+  {% csrf_token %}
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>swal({
+          title: "Successfull!",
+          text: "{{message}}",
+          icon: "success",
+          button: "OK",
+      });
+  </script>
+  
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>swal({
+          title: "Warning :)",
+          text: "{{message}}",
+          icon: "warning",
+          button: "OK",
+      });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <script>swal({
+          title: "error :)",
+          text: "{{message}}",
+          icon: "error",
+          button: "OK",
+      });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <script>swal({
+          title: "error :)",
+          text: "{{message}}",
+          icon: "error",
+          button: "OK",
+      });
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <div class="site-wrap">
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    
+    <header class="site-navbar py-4 js-sticky-header navv site-navbar-target" role="banner"> 
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <div class="site-logo mr-auto w-25"><a href="{% url 'user_dashboard' %}">AutoCorrect+</a></div>
+          <div class="mx-auto text-center">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
+                <li><a href="{% url 'user_dashboard' %}" >Dashboard</a></li>
+                <li><a href="{% url 'user_exam' %}" class="">Exams</a></li>
+                <li><a href="{% url 'user_results' %}" class="">My Results</a></li>
+                <li><a href="{% url 'user_myprofile' %}" class="">My Profile</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="ml-auto w-25">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+                <li class="cta"><a href="{% url 'index' %}" class="nav-link"><span>Sign out</span></a></li>
+              </ul>
+            </nav>
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a>
+          </div>
+        </div>
+      </div>   
+    </header>
+    
+    
+    <section class="container pt-5 ml-5" >
+      
+      <div class="container pt-5" style="margin-left: 5%;">
+        <div class="container py-5">
+          <h1 class="text-dark text-center mb-5 text-decoration-underline mx-auto">Your Profile</h1>
+          <div class="row mx-auto justify-content-center">
+         
+            <div class="col-lg-4" >
+              <div class="card mb-4" style="background-color: #494e53;">
+                <form method="post" enctype="multipart/form-data" onsubmit='return loginvalidation();' name='myform' >
+                  {% csrf_token %}
+                <div class="card-body text-center">
+                  <img src="media/{{user.user_photo}}" alt="avatar" class="rounded-circle img-fluid mb-3" style="width: 150px;"><br>
+                  <label class="text-white text-center" for="">Profile Photo</label>
+                  <div class=" justify-content-center mb-2" style="margin-top: 10%;padding-bottom: 4%;">
+                    
+                  <input type="file" name="photo">
+                  
+
+    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4" style="">
+                <div class="card-body text-white" style="border-radius: 4px;background-color: #494e53;">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="">Full Name:</label><br>
+                      <input type="text" name="name" placeholder="ex. Upender Bala" value="{{user.user_name}}">
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="">Email:</label><br>
+                      <input type="email" name="email" placeholder="ex. upender@gmail.com" value="{{user.user_email}}">
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label for="">Contact:</label><br>
+                      <input type="number" name="contact" placeholder="ex. (+91)" value="{{user.user_contact}}">
+                    </div>
+                    <div class="col-lg-6">
+                      <label for="">Password:</label><br>
+                      <input type="password" name="password" placeholder="XXXXXXXXXX" value="{{user.user_password}}" readonly>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="">Student Id:</label><br>
+                      <input type="text" placeholder="age" name="id" value="{{user.student_id}}"  readonly>
+                    </div>
+                    
+    
+    
+                  </div>
+    
+                
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-2">
+              
+              <button type="submit" class="btn btn-primary">Update Profile</button>
+              
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </section>
+    </div> 
+    
+    <script src="{% static 'user/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery-ui.js' %}"></script>
+    <script src="{% static 'user/js/popper.min.js' %}"></script>
+    <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'user/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'user/js/aos.js' %}"></script>
+    <script src="{% static 'user/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.sticky.js' %}"></script>
+    
+    
+    <script src="{% static 'user/js/main.js' %}"></script>
+    
+  </body>
+  </html>
+  
+  
+  
+  
+  
+  
+  
+  
+  
