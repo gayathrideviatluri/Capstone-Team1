@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="{% static 'admin/images/book.png' %}" rel="icon">
+  <title>AutoCorrect+</title>  - A Descriptive Answers Evaluation - This is done using Using Cosine Similarity </title>
+  <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'admin/css/ruang-admin.min.css' %}" rel="stylesheet">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body id="page-top">
+
+  <script type="text/javascript">
+    function loginvalidation() {
+        var subject = document.myform.subject
+        var question = document.myform.question
+        var answer = document.myform.answer
+
+         
+        if (subject.value == "select") {
+            alert("Please select the subject.")
+            subject.focus();
+            return false;
+        }
+        if (question.value.length <= 0) {
+            alert("Please enter the question.")
+            question.focus();
+            return false;
+        }
+        if (answer.value.length <= 0) {
+            alert("Please enter the answer.")
+            answer.focus();
+            return false;
+        }
+       
+      
+        
+    }   
+</script>
+
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>swal({
+        title: "Success!",
+        text: "{{message}}",
+        icon: "success",
+        button: "OK",
+    });
+  </script>
+  
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>swal({
+        title: "Warning :)",
+        text: "{{message}}",
+        icon: "warning",
+        button: "OK",
+    });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <script>swal({
+        title: "info :)",
+        text: "{{message}}",
+        icon: "info",
+        button: "OK",
+    });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <script>swal({
+        title: "error :)",
+        text: "{{message}}",
+        icon: "error",
+        button: "OK",
+    });
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon">
+          <img src="{% static 'admin/images/book.png' %}">
+        </div>
+        <div class="sidebar-brand-text mx-3" style="font-size: small;">AutoCorrect+</div>
+      </a>
+      <hr class="sidebar-divider my-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'admin_index' %}">
+          <i class="fa fa-th-large"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ManageUsers" aria-expanded="true"
+          aria-controls="collapseBootstrap">
+          <i class="fa fa-user"></i>
+          <span>Manage Users</span>
+        </a>
+        <div id="ManageUsers" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'admin_pending' %}">Pending Users</a>
+            <a class="collapse-item" href="{% url 'admin_all' %}">All Users</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true"
+          aria-controls="collapseBootstrap">
+          <i class="fa fa-pen"></i>
+          <span>Examinations</span>
+        </a>
+        <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar"
+          aria-expanded="true">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'admin_add_subject' %}">Manage Subject</a>
+            <a class="collapse-item" href="{% url 'admin_add_question' %}">Add Questions</a>
+            <a class="collapse-item" href="{% url 'admin_manage_question' %}">Manage Questions</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Sentiment" aria-expanded="true"
+          aria-controls="collapseBootstrap">
+          <i class="fa fa-signal"></i>
+          <span>Assessments</span>
+        </a>
+        <div id="Sentiment" class="collapse " aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'admin_results' %}">Results</a>
+            <a class="collapse-item" href="{% url 'admin_analysis_graph' %}">Analysis Graph</a>
+    
+          </div>
+        </div>
+      </li>
+      <hr class="sidebar-divider">
+    </ul>
+<!-- Sidebar -->
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <!-- TopBar -->
+    <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+      <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+      <ul class="navbar-nav ml-auto">         
+        <div class="topbar-divider d-none d-sm-block"></div>
+        <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" href="#" id="voterDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <img class="img-profile rounded-circle" src="{% static 'admin/img/boy.png' %}" style="max-width: 60px">
+          <span class="ml-2 d-none d-lg-inline text-white small">Admin</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown">
+          
+          
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'index' %}" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+          </a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <!-- Topbar -->
+  
+  <!-- Container Fluid-->
+  <div class="container-fluid pb-5" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Examinations</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">/ Add Questions</li>
+      </ol>
+    </div>
+    
+    <div class="row justify-content-centerb-3 mt-5">
+      <div class="container col-lg-8 " style="background-color: rgb(217, 226, 249);border-radius: 10px;">
+        <form class="pt-3 mt-3" enctype="multipart/form-data" method="post" onsubmit='return loginvalidation();' name='myform'>
+          {% csrf_token %}
+           <div class="row" style="padding-top: 3%;">
+               <div class="col-lg-3 col-md-6">
+                   <label for="">Select Subject:</label>
+               </div>
+               <div class="col-lg-6 col-md-6">
+                <select name="subject" class="form-control" style="border-radius: 20px;">
+                  <option value="select">Select Subject</option>
+                  {% for i in sub %}
+                  <option value="{{i.subject}}">{{i.subject}}</option>
+                  {% endfor %}
+                  
+              </select>
+               </div>
+           </div><br>
+           
+           <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <label for="">Add Question:</label>
+            </div>
+            <div class="col-lg-9 col-md-6">
+                <textarea type="text" class="col-lg-9" name="question" rows="2" style="border-radius: 20px;"></textarea>
+            </div>
+        </div><br>
+           <div class="row">
+               <div class="col-lg-3 col-md-6">
+                   <label for="">Add Answer:</label>
+               </div>
+               <div class="col-lg-9 col-md-6">
+                   <textarea type="text" class="col-lg-9" name="answer" rows="5" style="border-radius: 20px;"></textarea>
+               </div>
+           </div>
+           <div class="row justify-content-center mt-5">
+               <div class="col-lg-4 col-md-4" >
+                   <button class="btn mb-3 text-white" style="background-color: #1458ed;margin-left: 60px;">Submit</button>
+               </div>
+           </div>
+       </form>
+
+      </div>
+
+<!-- Area Chart -->
+
+<!-- Pie Chart -->
+
+<!-- Invoice Example -->
+
+<!-- Message From Customer-->
+{% comment %} <nav class="row justify-content-center" aria-label="page navigation example">
+  <ul class="pagination ml-2">
+    {% if assess.has_previous %}
+    <li class="page-item"><a href="?page={{assess.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
+    {% endif %}
+    &nbsp;<label class="mt-2">page {{assess.number}} of {{assess.paginator.num_pages}}</label>&nbsp;
+    {% if assess.has_next %}
+    <li class="page-item"><a href="?page={{assess.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
+    {% endif %}
+  </ul>
+  
+        </nav> {% endcomment %}
+</div>
+<!--Row-->
+
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to logout?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+      <a href="{% url 'index' %}" class="btn btn-primary">Logout</a>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<!---Container Fluid-->
+</div>
+</div>
+</div>
+
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'admin/js/ruang-admin.min.js' %}"></script>
+<script src="{% static 'admin/vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'admin/js/demo/chart-area-demo.js' %}"></script>  
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <title>AutoCorrect+ - A Descriptive Answers Evaluation - This is done using Using Cosine Similarity </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'user/fonts/icomoon/style.css' %}">
+  <link href="{% static 'user/images/book.png' %}" rel="icon">
+  <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/owl.theme.default.min.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/jquery.fancybox.min.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/bootstrap-datepicker.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/fonts/flaticon/font/flaticon.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/aos.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'user/css/rating.css'%}">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  
+  <style>
+    .navv{
+      background-color: #494e53;
+    }
+  </style>
+  
+  
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300"> 
+
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>swal({
+        title: "Success!",
+        text: "{{message}}",
+        icon: "success",
+        button: "OK",
+    });
+  </script>
+  
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>swal({
+        title: "Warning :)",
+        text: "{{message}}",
+        icon: "warning",
+        button: "OK",
+    });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <script>swal({
+        title: "error :)",
+        text: "{{message}}",
+        icon: "error",
+        button: "OK",
+    });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <script>swal({
+        title: "error :)",
+        text: "{{message}}",
+        icon: "error",
+        button: "OK",
+    });
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+
+
+<style>
+  .thiscard {
+    width: 18rem;
+    box-shadow: 0px 0px 10px #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+</style>
+
+
+  <div class="site-wrap">  
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    
+    <header class="site-navbar py-4 js-sticky-header navv site-navbar-target" role="banner"> 
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <div class="site-logo mr-auto w-25"><a href="{% url 'user_dashboard' %}" >AutoCorrect+</a></div>
+          <div class="mx-auto text-center">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
+                <li><a href="{% url 'user_dashboard' %}" >Dashboard</a></li>
+                <li><a href="{% url 'user_exam' %}" class="">Exams</a></li>
+                <li><a href="{% url 'user_results' %}" class="">My Results</a></li>
+                <li><a href="{% url 'user_myprofile' %}" class="">My Profile</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="ml-auto w-25">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+                <li class="cta"><a href="{% url 'index' %}" class="nav-link"><span>Sign out</span></a></li>
+              </ul>
+            </nav>
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a>
+          </div>
+        </div>
+      </div>   
+    </header>
+    
+    
+    <div class="container pt-5">
+      <div class="container pt-5">
+        <h2 class="mt-5 text-center fw-bold text-dadrk">Select a subject you want to take an exam for.</h2><br><br>
+        <div class="row justify-content-around">
+          {% for i in sub %}
+          <div class="col-lg-4">
+            <div class="thiscard" style="width: 18rem;">
+              <img class="card-img-top" src="media/{{i.subject_image}}" alt="Card image cap"
+                style="width: 286px;height: 150px;">
+              <div class="card-body">
+                <h5 class="card-title text-center">Take {{i.subject}} Exam Here!</h5>
+              </div>
+              <hr>
+              <div class="card-body text-center">
+    
+                <a href="{% url 'user_questions' i.subject %}" class="btn btn-primary"
+                  style="background-color: #7971ea;">Start Exam</a>
+              </div>
+            </div>
+          </div><br>
+          {% endfor %}
+        </div>
+      </div>
+    </div>  
+    </div>
+    
+    <script src="{% static 'user/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery-ui.js' %}"></script>
+    <script src="{% static 'user/js/popper.min.js' %}"></script>
+    <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'user/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'user/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'user/js/aos.js' %}"></script>
+    <script src="{% static 'user/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'user/js/jquery.sticky.js' %}"></script>
+    
+    <script src="{% static 'user/js/main.js' %}"></script>
+    
+    
+    
+  </body>
+  </html>
