@@ -21,11 +21,6 @@
     function loginvalidation() {
         var subject = document.myform.subject
         var photo = document.myform.photo
-
-        
-        
-        
-
          
         if (subject.value.length <= 0) {
             alert("Please give the subject name.")
@@ -37,10 +32,6 @@
             photo.focus();
             return false;
         }
-        
-        
-       
-      
         
     }   
 </script>
@@ -85,7 +76,7 @@
   {% endfor %}
   {% endif %}
   <div id="wrapper">
-    <!-- Sidebar -->
+   
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
         <div class="sidebar-brand-icon">
@@ -144,10 +135,9 @@
       </li>
       <hr class="sidebar-divider">
     </ul>
-<!-- Sidebar -->
+
 <div id="content-wrapper" class="d-flex flex-column">
   <div id="content">
-    <!-- TopBar -->
     <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
       <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
         <i class="fa fa-bars"></i>
@@ -172,9 +162,7 @@
       </li>
     </ul>
   </nav>
-  <!-- Topbar -->
   
-  <!-- Container Fluid-->
   <div class="container-fluid pb-5" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Examinations</h1>
@@ -226,11 +214,7 @@
 
 <!-- Area Chart -->
 
-<!-- Pie Chart -->
 
-<!-- Invoice Example -->
-
-<!-- Message From Customer-->
 {% comment %} <nav class="row justify-content-center" aria-label="page navigation example">
   <ul class="pagination ml-2">
     {% if assess.has_previous %}
@@ -297,9 +281,7 @@
     </div>
 
   </div>
-<!--Row-->
 
-<!-- Modal Logout -->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
 aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -322,12 +304,12 @@ aria-hidden="true">
 </div>
 
 </div>
-<!---Container Fluid-->
+
 </div>
 </div>
 </div>
 
-<!-- Scroll to top -->
+
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>

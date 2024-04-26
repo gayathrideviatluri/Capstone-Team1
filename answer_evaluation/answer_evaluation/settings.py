@@ -1,17 +1,11 @@
-
 from pathlib import Path
 import os
 from django.contrib import messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 SECRET_KEY = 'django-insecure-xru#6%&2krrs42(ck*gg@*gwa1n#8po5w#6386!dy#0typf1it'
-
 DEBUG = True
-
 ALLOWED_HOSTS = []
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,7 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminapp',
     'userapp',
-
 ]
 
 MIDDLEWARE = [
@@ -55,8 +48,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'answer_evaluation.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -67,7 +58,6 @@ DATABASES = {
         'PORT' : '3306',
     }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -94,7 +84,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'assets/static')]
 
@@ -102,7 +91,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 MESSAGE_TAGS = {
     messages.DEBUG : 'alert-secondary',
