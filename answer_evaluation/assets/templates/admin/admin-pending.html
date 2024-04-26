@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
 {% load static %}
+<html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,9 +13,50 @@
   <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/css/ruang-admin.min.css' %}" rel="stylesheet">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 </head>
 
+
 <body id="page-top">
+  {% csrf_token %}
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>swal({
+          title: "Successfull!",
+          text: "{{message}}",
+          icon: "success",
+          button: "OK",
+      });
+  </script>
+
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>swal({
+          title: "Warning :)",
+          text: "{{message}}",
+          icon: "warning",
+          button: "OK",
+      });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <script>swal({
+          title: "error :)",
+          text: "{{message}}",
+          icon: "error",
+          button: "OK",
+      });
+  </script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <script>swal({
+          title: "error :)",
+          text: "{{message}}",
+          icon: "error",
+          button: "OK",
+      });
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -75,10 +117,10 @@
       </li>
       <hr class="sidebar-divider">
     </ul>
-<!-- Sidebar -->
+
 <div id="content-wrapper" class="d-flex flex-column">
   <div id="content">
-    <!-- TopBar -->
+   
     <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
       <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
         <i class="fa fa-bars"></i>
@@ -91,7 +133,9 @@
           <img class="img-profile rounded-circle" src="{% static 'admin/img/boy.png' %}" style="max-width: 60px">
           <span class="ml-2 d-none d-lg-inline text-white small">Admin</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown"> 
+        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown">
+          
+          
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'index' %}" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -103,11 +147,12 @@
   </nav>
   <!-- Topbar -->
   
+  <!-- Container Fluid-->
   <div class="container-fluid pb-5" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">All Users</h1>
+      <h1 class="h3 mb-0 text-gray-800">Pending Users</h1>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">/ Manage Users</li>
+        <li class="breadcrumb-item active" aria-current="page">/ Results</li>
       </ol>
     </div>
     
@@ -121,11 +166,12 @@
             <th>Email</th>
             <th>Contact</th>
             <th>Student Id</th>
+            <th>Action</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {% for i in all %}
+          {% for i in pend %}
           <tr>
             <td class="sno">
               <img class="img rounded-pill" src="media/{{i.user_photo}}" style="height:40px;width:40px;" alt="">
@@ -136,43 +182,50 @@
             <td>
               {{i.user_email}}
             </td>
-            <td>
+            <td><!--  -->
               {{i.user_contact}}
             </td>
             <td>
               {{i.student_id}}
             </td>
-            
-            
+            <td>
+              <div class="row justify-content-center">
+                <div class="col-lg-6">
+                  <a href="{% url 'accept_user' i.user_id %}">
+                  <button class="btn btn-success btn-rounded btn-sm" data-mdb-ripple-color="dark">Accept</button>
+                  </a>
+                </div>
+                <div class="col-lg-6">
+
+                  <a href="{% url 'decline_user' i.user_id %}">
+                    <button class="btn btn-danger btn-rounded btn-sm" data-mdb-ripple-color="dark">Reject</button>
+                  </a>
+                </div>
+              </div>
+          </td>
           <td>
-            {% if i.user_status == 'accepted' %}
-            <label class="bg-success text-white" for="">Accepted</label>
-            {% elif i.user_status == 'rejected' %}
-            <label class="bg-danger text-white" for="">Rejected</label>
-            {% else %}
             <label class="bg-primary text-white" for="">Pending</label>
-            {% endif %}
           </td>
         </tr>
-
         {% endfor %}
+        
         
 </tbody>
 </table>
 
+
 <nav class="row justify-content-center" aria-label="page navigation example">
   <ul class="pagination ml-2">
-    {% if all.has_previous %}
-    <li class="page-item"><a href="?page={{all.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
+    {% if pend.has_previous %}
+    <li class="page-item"><a href="?page={{pend.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
     {% endif %}
-    &nbsp;<label class="mt-2">page {{all.number}} of {{all.paginator.num_pages}}</label>&nbsp;
-    {% if all.has_next %}
-    <li class="page-item"><a href="?page={{all.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
+    &nbsp;<label class="mt-2">page {{pend.number}} of {{pend.paginator.num_pages}}</label>&nbsp;
+    {% if pend.has_next %}
+    <li class="page-item"><a href="?page={{pend.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
     {% endif %}
   </ul>
   
         </nav>
-
 
 </div>
 
@@ -202,6 +255,7 @@ aria-hidden="true">
 </div>
 </div>
 </div>
+
 
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>

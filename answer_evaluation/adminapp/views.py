@@ -1,6 +1,5 @@
 from ast import Return
 
-# from ssl import _PasswordType
 from django.db.models import Avg,Max,Min,Sum,Count,StdDev,Variance
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
@@ -15,16 +14,12 @@ def admin_index(request):
     ans = AnswerModel.objects.all().count()
     return render(request,"admin/admin-index.html",{'ques':ques,'all':all,'ans':ans,'pend':pend})
 
-
-
 def admin_all(request):
     all=UserdetailsModel.objects.all() 
     paginator = Paginator(all,5)
     page_no = request.GET.get('page')
     page = paginator.get_page(page_no)
     return render(request,"admin/admin-all.html",{'all':page})
-
-
 
 def admin_add_subject(request):
     sub =  SubjectModel.objects.all()

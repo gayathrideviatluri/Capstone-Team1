@@ -12,9 +12,61 @@
   <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/css/ruang-admin.min.css' %}" rel="stylesheet">
+  <style>
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      margin: -76px 0 0 -76px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+    
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+    
+    @-webkit-keyframes animatebottom {
+      from { bottom:-100px; opacity:0 } 
+      to { bottom:0px; opacity:1 }
+    }
+    
+    @keyframes animatebottom { 
+      from{ bottom:-100px; opacity:0 } 
+      to{ bottom:0; opacity:1 }
+    }
+    
+    #myDiv {
+      display: none;
+      text-align: center;
+    }
+    </style>
 </head>
 
 <body id="page-top">
+  <div class="loader"></div>
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -75,39 +127,13 @@
       </li>
       <hr class="sidebar-divider">
     </ul>
-<!-- Sidebar -->
-<div id="content-wrapper" class="d-flex flex-column">
-  <div id="content">
-    <!-- TopBar -->
-    <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
-      <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-      </button>
-      <ul class="navbar-nav ml-auto">         
-        <div class="topbar-divider d-none d-sm-block"></div>
-        <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="voterDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <img class="img-profile rounded-circle" src="{% static 'admin/img/boy.png' %}" style="max-width: 60px">
-          <span class="ml-2 d-none d-lg-inline text-white small">Admin</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown"> 
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'index' %}" data-toggle="modal" data-target="#logoutModal">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            Logout
-          </a>
-        </div>
-      </li>
-    </ul>
   </nav>
-  <!-- Topbar -->
-  
+ 
   <div class="container-fluid pb-5" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">All Users</h1>
+      <h1 class="h3 mb-0 text-gray-800">Assessments</h1>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">/ Manage Users</li>
+        <li class="breadcrumb-item active" aria-current="page">/Results</li>
       </ol>
     </div>
     
@@ -117,63 +143,57 @@
         <thead class="bg-light">
           <tr>
             <th>Profile</th>
-            <th>Name</th>
+            <th>Student Name</th>
             <th>Email</th>
-            <th>Contact</th>
-            <th>Student Id</th>
-            <th>Status</th>
+            <th>Subject</th>
+            <th>Marks</th>
+            <td>Grade</td>
+            <th>Exam Date</th>
           </tr>
         </thead>
         <tbody>
-          {% for i in all %}
-          <tr>
-            <td class="sno">
-              <img class="img rounded-pill" src="media/{{i.user_photo}}" style="height:40px;width:40px;" alt="">
-            </td>
-            <td>
-              {{i.user_name}}
-            </td>
-            <td>
-              {{i.user_email}}
-            </td>
-            <td>
-              {{i.user_contact}}
-            </td>
-            <td>
-              {{i.student_id}}
-            </td>
-            
-            
-          <td>
-            {% if i.user_status == 'accepted' %}
-            <label class="bg-success text-white" for="">Accepted</label>
-            {% elif i.user_status == 'rejected' %}
-            <label class="bg-danger text-white" for="">Rejected</label>
-            {% else %}
-            <label class="bg-primary text-white" for="">Pending</label>
-            {% endif %}
+          {% for i in result %}
+        <tr>
+          <td class="sno">
+            <img class="img rounded-pill" src="media/{{i.user_id.user_photo}}" style="height:40px;width:40px;" alt="">
           </td>
-        </tr>
+          <td>
+            {{i.user_id.user_name}}
+          </td>
+          <td>
+            {{i.user_id.user_email}}
+          </td>
+          <td><!--  -->
+            {{i.answer_subject}}
+          </td>
+          <td>
+            {{i.score}}
+          </td>
+          <td>
 
+            {{i.grade}}
+          </td>
+          <td>{{i.datetime_answered}}</td>
+        </tr>
         {% endfor %}
-        
 </tbody>
 </table>
 
-<nav class="row justify-content-center" aria-label="page navigation example">
-  <ul class="pagination ml-2">
-    {% if all.has_previous %}
-    <li class="page-item"><a href="?page={{all.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
-    {% endif %}
-    &nbsp;<label class="mt-2">page {{all.number}} of {{all.paginator.num_pages}}</label>&nbsp;
-    {% if all.has_next %}
-    <li class="page-item"><a href="?page={{all.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
-    {% endif %}
-  </ul>
-  
-        </nav>
+<div class="container">
 
-
+  <nav class="row justify-content-center" aria-label="page navigation example">
+    <ul class="col-lg-2 pagination ml-2">
+      {% if result.has_previous %}
+      <li class="page-item"><a href="?page={{result.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
+      {% endif %}
+      &nbsp;<label class="mt-2">page {{result.number}} of {{result.paginator.num_pages}}</label>&nbsp;
+      {% if result.has_next %}
+      <li class="page-item"><a href="?page={{result.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
+      {% endif %}
+    </ul>
+    
+          </nav>
+</div>
 </div>
 
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
@@ -198,10 +218,12 @@ aria-hidden="true">
 </div>
 
 </div>
+<!---Container Fluid-->
+</div>
 
 </div>
 </div>
-</div>
+
 
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>

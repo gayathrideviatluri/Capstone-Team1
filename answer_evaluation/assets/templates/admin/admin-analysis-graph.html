@@ -8,10 +8,11 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="{% static 'admin/images/book.png' %}" rel="icon">
-  <title>AutoCorrect+  - A Descriptive Answers Evaluation - This is done using Using Cosine Similarity </title>
+  <title>AutoCorrect+ - A Descriptive Answers Evaluation - This is done using Using Cosine Similarity </title>
   <link href="{% static 'admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'admin/css/ruang-admin.min.css' %}" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body id="page-top">
@@ -91,7 +92,9 @@
           <img class="img-profile rounded-circle" src="{% static 'admin/img/boy.png' %}" style="max-width: 60px">
           <span class="ml-2 d-none d-lg-inline text-white small">Admin</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown"> 
+        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="voterDropdown">
+          
+          
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'index' %}" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -105,73 +108,47 @@
   
   <div class="container-fluid pb-5" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">All Users</h1>
+      <h1 class="h3 mb-0 text-gray-800">Analysis Graph</h1>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">/ Manage Users</li>
+        <li class="breadcrumb-item active" aria-current="page">/ Assessments</li>
       </ol>
     </div>
     
     <div class="row mb-3">
       
-      <table class="table align-middle mb-0 bg-white m-2">
-        <thead class="bg-light">
-          <tr>
-            <th>Profile</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Student Id</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for i in all %}
-          <tr>
-            <td class="sno">
-              <img class="img rounded-pill" src="media/{{i.user_photo}}" style="height:40px;width:40px;" alt="">
-            </td>
-            <td>
-              {{i.user_name}}
-            </td>
-            <td>
-              {{i.user_email}}
-            </td>
-            <td>
-              {{i.user_contact}}
-            </td>
-            <td>
-              {{i.student_id}}
-            </td>
-            
-            
-          <td>
-            {% if i.user_status == 'accepted' %}
-            <label class="bg-success text-white" for="">Accepted</label>
-            {% elif i.user_status == 'rejected' %}
-            <label class="bg-danger text-white" for="">Rejected</label>
-            {% else %}
-            <label class="bg-primary text-white" for="">Pending</label>
-            {% endif %}
-          </td>
-        </tr>
+        <canvas id="myChart" style="height: 25%;width: 30%;"></canvas>
 
-        {% endfor %}
+        <script>
+        var xValues = ["Grade A", "Grade B","Grade C","Grade F"];
+        var yValues = [{{a}},{{b}},{{c}},{{f}}];
+        var barColors = [
         
-</tbody>
-</table>
+        
+        
+        "#2b5797",
+        "#1e7145",
+        "#1e7977",
+        "#b91d47"
+        ];
 
-<nav class="row justify-content-center" aria-label="page navigation example">
-  <ul class="pagination ml-2">
-    {% if all.has_previous %}
-    <li class="page-item"><a href="?page={{all.previous_page_number}}" class="page-link bg-info text-white">Prev</a></li>
-    {% endif %}
-    &nbsp;<label class="mt-2">page {{all.number}} of {{all.paginator.num_pages}}</label>&nbsp;
-    {% if all.has_next %}
-    <li class="page-item"><a href="?page={{all.next_page_number}}" class="page-link bg-info text-white">Next</a></li>
-    {% endif %}
-  </ul>
-  
-        </nav>
+        new Chart("myChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+            }]
+        },
+        options: {
+            title: {
+            display: true,
+            text: "Feedback Sentiment Analysis"
+            }
+        }
+        });
+        </script>
+
 
 
 </div>
@@ -200,8 +177,10 @@ aria-hidden="true">
 </div>
 
 </div>
+
 </div>
 </div>
+
 
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
@@ -212,7 +191,8 @@ aria-hidden="true">
 <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 <script src="{% static 'admin/js/ruang-admin.min.js' %}"></script>
 <script src="{% static 'admin/vendor/chart.js/Chart.min.js' %}"></script>
-<script src="{% static 'admin/js/demo/chart-area-demo.js' %}"></script>  
+<script src="{% static 'admin/js/demo/chart-area-demo.js' %}"></script>
+<script src="assets/js/init/flot-chart-init.js"></script>  
 </body>
 
 </html>

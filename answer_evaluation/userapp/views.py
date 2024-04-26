@@ -8,7 +8,6 @@ from userapp.text_similarity import *
 import json
 import ast
 
-# Create your views here.
 def index(request):
     return render(request,"user/index.html")
 

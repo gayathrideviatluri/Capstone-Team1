@@ -23,8 +23,6 @@ urlpatterns = [
     path('remove-questions/<int:question_id>',adminapp_views.remove_questions,name='remove_questions'),
     path('remove-subject/<int:subject_id>',adminapp_views.remove_subject,name='remove_subject'),
 
-    
-
     #user urls
     path('',userapp_views.index,name='index'),
     path('admin-login',userapp_views.admin_login,name='admin_login'),
