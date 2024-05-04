@@ -81,10 +81,10 @@ https://github.com/gayathrideviatluri/Capstone-Team1/tree/main/answer_evaluation
 
 ## Deployment
 
-To deploy the application to a server, follow the Django deployment guidelines for your preferred hosting platform (e.g., Heroku, AWS, DigitalOcean). The deployment process typically involves:
+To deploy the application to a server, follow the Django deployment guidelines for your preferred hosting platform (e.g AWS). The deployment process typically involves:
 
 - Collecting static files
-- Setting up a production-ready web server (e.g., Gunicorn, Nginx)
+- Setting up a production-ready web server 
 - Configuring the production database
 - Applying security best practices
 
