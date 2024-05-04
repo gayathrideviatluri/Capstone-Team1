@@ -51,8 +51,8 @@ https://github.com/gayathrideviatluri/Capstone-Team1/tree/main/answer_evaluation
 2. **Set up the database**
 
    - Install and start the WAMP or XAMPP server.
-   - Create a new database for your project.
-   - Update the database settings in `settings.py` with your database credentials.
+   - Create a new database for  project.
+   - Update the database settings in `settings.py` with  database credentials.
 
 3. **Apply database migrations**
 
